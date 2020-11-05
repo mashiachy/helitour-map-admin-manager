@@ -20,7 +20,6 @@
         :google="google"
         :map="map"
         :pathV="info.path"
-        v-if="info.path"
       />
     </template>
     <v-alert
@@ -60,11 +59,6 @@ export default {
       currentListener: null,
       editingMarkerId: null
     }
-  },
-
-  // TODO: Сделать прослушиватели для режимов редактирования
-  watch: {
-
   },
 
   async mounted () {

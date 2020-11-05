@@ -9,7 +9,6 @@ export default {
 
   props: {
     pathV: {
-      type: Array,
       required: true
     }
   },
@@ -22,6 +21,7 @@ export default {
 
   watch: {
     pathV (v) {
+      if ( !v ) return
       this.polygon.setPath(v)
       this.polygon.douglasPeucker(360.0 / (2.0 * Math.PI * EARTH_RADIUS))
       this.polygon.setPath(smooth(smooth(this.polygon.getPath().i.map(({ lat, lng }) => [ lat(), lng() ])))
