@@ -59,7 +59,15 @@ export default new Vuex.Store({
       eventBus.$emit('cancelEdits')
     },
     saveEdits ({ state }) {
-      console.log(state.changedTrips)
+      axios.post('/api/constructor/trips.json', {"changedTrips" : state.changedTrips, "idForNew" : state.idForNewTrip})
+        .then(({ data }) => {
+          if (data.success) {
+            window.location = data.location
+          } else {
+            alert(data.message)
+          }
+        })
+        .catch(() => alert('Что-то пошло не так'))
     }
   },
 
