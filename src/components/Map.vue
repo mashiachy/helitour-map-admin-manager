@@ -97,11 +97,11 @@ export default {
       }
       eventBus.$off('drawn', this.handlePolyLineDrawn)
     },
-    toggleDrawingMode () {
+    toggleDrawingMode (mode) {
       if (this.drawingMarker) eventBus.$emit('toggleMarkerSetMode')
       this.drawingPolyline = !this.drawingPolyline
       if (this.drawingPolyline) {
-        eventBus.$emit('drawerOn')
+        eventBus.$emit('drawerOn', mode)
         eventBus.$on('drawn', this.handlePolyLineDrawn)
       } else {
         eventBus.$emit('drawerOff')

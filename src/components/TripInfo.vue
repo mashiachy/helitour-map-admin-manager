@@ -6,11 +6,18 @@
         label="Название маршрута"
         v-model="tripName"
       ></v-text-field>
+      <template
+        v-if="!isPolyEditMode"
+      >
+        <v-btn class="mb-4" @click="clickDrawButton(0)">Рисование маршрута линией</v-btn>
+        <v-btn class="mb-4" @click="clickDrawButton(1)">Рисование маршрута по точкам</v-btn>
+      </template>
       <v-btn
         class="mb-4"
+        v-else
         @click="clickDrawButton"
       >
-        {{ isPolyEditMode ? 'Выход из режима рисования' : 'Рисование маршрутa' }}
+        Выход из режима рисования
       </v-btn>
       <v-data-table
         :headers="markerHeaders"
@@ -255,8 +262,8 @@ export default {
       this.tripMarkers = [...this.markers]
       this.activeMarker = null
     },
-    clickDrawButton () {
-      eventBus.$emit('toggleDrawMode')
+    clickDrawButton (mode=null) {
+      eventBus.$emit('toggleDrawMode', mode)
     },
     editItem (item) {
       this.editedIndex = this.tripMarkers.indexOf(item)

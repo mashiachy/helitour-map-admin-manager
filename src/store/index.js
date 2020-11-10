@@ -19,7 +19,7 @@ export default new Vuex.Store({
       state.changedTrips.push({ ...payload })
     },
     CHANGE_EDIT_TRIP (state, { id: tripId, ...tripItem }) {
-      Vue.$set(state.changedTrips, state.changedTrips.findIndex(({ id }) => id === tripId), { id: tripId, ...tripItem })
+      Vue.set(state.changedTrips, state.changedTrips.findIndex(({ id }) => id === tripId), { id: tripId, ...tripItem })
     },
     CLEAR_CHANGES (state) {
       state.changedTrips = []

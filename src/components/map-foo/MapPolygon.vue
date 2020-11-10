@@ -1,6 +1,6 @@
 <script>
-import { MAP_ELEMENT_MIXIN, MAP_POLYGON_CONFIG, EARTH_RADIUS } from '@/constants';
-import smooth from 'chaikin-smooth';
+import { MAP_ELEMENT_MIXIN, MAP_POLYGON_CONFIG } from '@/constants';
+// import smooth from 'chaikin-smooth';
 
 export default {
   name: 'MapPolygon',
@@ -23,10 +23,10 @@ export default {
     pathV (v) {
       if ( !v ) return
       this.polygon.setPath(v)
-      this.polygon.douglasPeucker(360.0 / (2.0 * Math.PI * EARTH_RADIUS))
-      this.polygon.setPath(smooth(smooth(this.polygon.getPath().i.map(({ lat, lng }) => [ lat(), lng() ])))
-        .map(([ lat, lng ]) => ({ lat, lng }))
-      )
+      // this.polygon.douglasPeucker(360.0 / (2.0 * Math.PI * EARTH_RADIUS))
+      // this.polygon.setPath(smooth(smooth(this.polygon.getPath().i.map(({ lat, lng }) => [ lat(), lng() ])))
+      //   .map(([ lat, lng ]) => ({ lat, lng }))
+      // )
     }
   },
 
