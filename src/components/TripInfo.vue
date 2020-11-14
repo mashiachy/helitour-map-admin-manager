@@ -6,6 +6,8 @@
         label="Название маршрута"
         v-model="tripName"
       ></v-text-field>
+      <v-subheader>Зоом:</v-subheader>
+      <v-slider v-model='mapZoom' thumb-label :min='6' :max='16'></v-slider>
       <template
         v-if="!isPolyEditMode"
       >
@@ -138,6 +140,10 @@ export default {
     markers: {
       type: Array,
       default: () => []
+    },
+    zoom: {
+      type: Number,
+      default: 14
     }
   },
 
@@ -145,6 +151,7 @@ export default {
     return {
       tripId: this.id,
       tripName: this.name,
+      mapZoom: this.zoom,
       tripPath: [...this.wayPath],
       tripMarkers: [...this.markers],
       markerHeaders: MARKERS_TABLE_HEADER,
@@ -174,6 +181,7 @@ export default {
     },
     isEdits () {
       if (this.name !== this.tripName ) return true
+      if (this.zoom !== this.mapZoom) return true
       if (this.markers.length !== this.tripMarkers.length) return true
       if (this.wayPath.length !== this.tripPath.length) return true
       if (JSON.stringify(this.markers) !== JSON.stringify(this.tripMarkers)) return true
@@ -224,6 +232,14 @@ export default {
       eventBus.$emit('setMapInfo', {
         path: v
       })
+    },
+    mapZoom: {
+      immediate: true,
+      handler: function (v) {
+        if (v) {
+          eventBus.$emit('updateZoom', v)
+        }
+      }
     }
   },
 
@@ -311,7 +327,8 @@ export default {
         id: this.tripId,
         name: this.tripName,
         path: [ ...this.tripPath ],
-        markers: [ ...this.tripMarkers ]
+        markers: [ ...this.tripMarkers ],
+        zoom: this.mapZoom,
       })
     }
   }

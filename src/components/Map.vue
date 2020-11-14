@@ -74,6 +74,7 @@ export default {
     eventBus.$on('setMapInfo', this.setInfo)
     eventBus.$on('toggleActiveMarker', this.toggleActiveMarker)
     eventBus.$on('drawerOff', this.drawerOff)
+    eventBus.$on('updateZoom', this.setZoom)
   },
 
   beforeDestroy () {
@@ -82,10 +83,16 @@ export default {
     eventBus.$off('setNewMapInfo', this.setDefaultInfo)
     eventBus.$off('setMapInfo', this.setInfo)
     eventBus.$off('toggleActiveMarker', this.toggleActiveMarker)
-    eventBus.$on('drawerOff', this.drawerOff)
+    eventBus.$off('drawerOff', this.drawerOff)
+    eventBus.$off('updateZoom', this.setZoom)
   },
 
   methods: {
+    setZoom (z) {
+      if (this.map) {
+        this.map.setZoom(z)
+      }
+    },
     initializeMap () {
       this.map = new this.google.maps.Map(this.$refs['googleMap'], MAP_CONFIG)
       this.setDefaultInfo()

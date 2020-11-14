@@ -25,7 +25,11 @@ export default new Vuex.Store({
       state.changedTrips = []
     },
     PUSH_TRIP (state, trip) {
-      state.trips.push(trip)
+      if (trip.zoom) {
+        state.trips.push(trip)
+      } else {
+        state.trips.push({...trip, zoom: 14})
+      }
     },
     SET_ID_FOR_NEW_TRIP (state, idForNewTrip) {
       state.idForNewTrip = idForNewTrip
