@@ -9,6 +9,7 @@
         :map="map"
         :latLng="marker.latLng"
         :pulse="marker.id === activeMarkerId"
+        :size="marker.size"
       />
       <MapDrawer
         :google="google"

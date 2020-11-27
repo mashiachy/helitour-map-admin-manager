@@ -45,7 +45,7 @@ export const MAP_ELEMENT_MIXIN = {
   }
 }
 
-export const MAP_MARKER_CONFIG = (google) => ({
+export const MAP_MARKER_CONFIG = (google, size=10) => ({
   draggable: false,
   clickable: false,
   icon: {
@@ -54,7 +54,7 @@ export const MAP_MARKER_CONFIG = (google) => ({
     fillOpacity: 1,
     anchor: new google.maps.Point(0,0),
     strokeWeight: 0,
-    scale: 10
+    scale: size
   }
 })
 

@@ -58,6 +58,10 @@
                           label="Название"
                         ></v-text-field>
                       </v-col>
+                      <v-col cols="12">
+                        <v-subheader>Размер:</v-subheader>
+                        <v-slider v-model='editedItem.size' thumb-label :min='5' :max='20'></v-slider>
+                      </v-col>
                     </v-row>
                   </v-container>
                 </v-card-text>
@@ -153,7 +157,7 @@ export default {
       tripName: this.name,
       mapZoom: this.zoom,
       tripPath: [...this.wayPath],
-      tripMarkers: [...this.markers],
+      tripMarkers: [...this.markers.map(m => m.size ? m : {size:10, ...m})],
       markerHeaders: MARKERS_TABLE_HEADER,
       activeMarker: null,
       editedIndex: -1,
@@ -162,11 +166,13 @@ export default {
       editedItem: {
         id: 0,
         name: 'Новый маркер',
+        size:10,
         latLng: { lat: 0, lng: 0 }
       },
       defaultItem: {
         id: 0,
         name: 'Новый маркер',
+        size: 10,
         latLng: { lat: 0, lng: 0 }
       },
       isMarkerEditMode: false,
@@ -224,7 +230,7 @@ export default {
     tripMarkers (v) {
       this.activeMarker = null
       eventBus.$emit('setMapInfo', {
-        markers: v.map(({ id, latLng }) => ({ id, latLng }))
+        markers: v.map(({ id, latLng, size }) => ({ id, latLng, size }))
       })
     },
     tripPath (v) {
@@ -275,7 +281,7 @@ export default {
       this.tripId = this.id
       this.tripName = this.name
       this.tripPath = [...this.wayPath]
-      this.tripMarkers = [...this.markers]
+      this.tripMarkers = [...this.markers.map(m => m.size ? m : {size:10, ...m})]
       this.activeMarker = null
     },
     clickDrawButton (mode=null) {
@@ -315,7 +321,8 @@ export default {
     },
     save () {
       if (this.editedIndex > -1) {
-        Object.assign(this.tripMarkers[this.editedIndex], this.editedItem)
+        // Object.assign(this.tripMarkers[this.editedIndex], this.editedItem)
+        this.$set(this.tripMarkers, this.editedIndex, this.editedItem)
       } else {
         this.tripMarkers.push(this.editedItem)
       }

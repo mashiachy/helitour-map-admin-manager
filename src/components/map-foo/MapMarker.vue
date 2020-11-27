@@ -14,6 +14,10 @@ export default {
     pulse: {
       type: Boolean,
       default: false
+    },
+    size: {
+      type: Number,
+      default: 10
     }
   },
 
@@ -23,6 +27,12 @@ export default {
     },
     latLng (v) {
       this.marker.setPosition(v)
+    },
+    size (v) {
+      this.stopAnimate()
+      const s = this.marker.getIcon()
+      s.scale = v
+      this.marker.setIcon(s)
     }
   },
 
@@ -30,13 +40,14 @@ export default {
     return {
       marker: null,
       animateInterval: null,
-      i: 1
+      i: 1,
+      j: 0
     }
   },
 
   created () {
     this.marker = new this.google.maps.Marker({
-      ...MAP_MARKER_CONFIG(this.google),
+      ...MAP_MARKER_CONFIG(this.google, this.size),
       map: this.map,
       position: this.latLng ? this.latLng : this.map.getCenter()
     })
@@ -52,20 +63,21 @@ export default {
       this.animateInterval = setInterval(this.animateHandler, 10)
     },
     stopAnimate () {
-      clearInterval(this.animateInterval)
+      this.animateInterval ? clearInterval(this.animateInterval) : null
       this.animateInterval = null
       this.setDefaultScale()
     },
     animateHandler () {
       const s = this.marker.getIcon();
+      this.j += this.i
       s.scale = s.scale + this.i * 0.1
       this.marker.setIcon(s)
-      const f = Math.floor(s.scale)
-      if (f === 15) this.i = -1
-      if (f === 10) this.i = 1
+      if (this.j >= 100) this.i = -1
+      if (this.j <= 0) this.i = 1
     },
     setDefaultScale () {
       this.i = 1
+      this.j = 0
       const s = this.marker.getIcon()
       s.scale = 10
       this.marker.setIcon(s)
