@@ -51,7 +51,7 @@ export default {
       let polygon = new this.google.maps.Polygon(MAP_POLYGON_CONFIG)
       polygon.setPath(this.parcelleHeig)
       polygon.douglasPeucker(360.0 / (2.0 * Math.PI * EARTH_RADIUS))
-      const path = smooth(smooth(polygon.getPath().i.map(({ lat, lng }) => [ lat(), lng() ])))
+      const path = smooth(smooth(polygon.getPath().getArray().map(({ lat, lng }) => [ lat(), lng() ])))
         .map(([ lat, lng ]) => ({ lat, lng }))
       eventBus.$emit('drawn', path)
       polygon = null
@@ -107,7 +107,7 @@ export default {
         this.mode = false
       } else {
         if (this.polygon) {
-          const path = this.polygon.getPath().i
+          const path = this.polygon.getPath().getArray().map(({ lat, lng }) => ({ lat: lat(), lng: lng() }))
           eventBus.$emit('drawn', path)
           this.polygon.setMap(null)
           this.polygon = null
