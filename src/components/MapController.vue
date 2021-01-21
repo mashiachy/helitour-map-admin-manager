@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-col cols="6">
+    <v-col cols="12">
       <v-btn
         class="mb-2"
         @click="clickCreateTrip"
